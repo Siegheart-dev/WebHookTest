@@ -39,4 +39,4 @@ def get_contact_messages(message):
     bot.forward_message(chat_id='-1001793765406',from_chat_id=message.from_user.id,
                        message_id=message.message_id)
 #s
-bot.polling(none_stop=True,interval=1,timeout=100)
+bot.polling(none_stop=True,interval=1,timeout=100,long_polling_timeout=200)
