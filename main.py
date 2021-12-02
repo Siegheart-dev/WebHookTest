@@ -28,7 +28,7 @@ def get_text_messages(message):
         keyboard.add(button_phone,button_menu)
         bot.send_message(message.chat.id,
                          "Чтобы оставить заявку - нажмите кнопку отправить номер телефона, затем всплывет окно"
-                         "и нажмите 'ok' либо 'Share'",
+                         " после чего нажмите 'ok' либо 'Share'",
                          reply_markup=keyboard)
     elif message.text == 'Прайс-лист ваших услуг':
         bot.send_message(message.chat.id,'Выгружаем Вам прайс-лист,пожалуйста подождите')
