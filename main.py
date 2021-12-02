@@ -45,6 +45,7 @@ def get_contact_messages(message):
     print(id)
     bot.forward_message(chat_id='-1001780484687',from_chat_id=message.from_user.id,
                        message_id=message.message_id)
+    bot.send_message(message.from_user.id, 'Ваша заявка принята!', reply_markup=main_menu)
 
 
 
