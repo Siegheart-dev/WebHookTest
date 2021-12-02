@@ -27,7 +27,8 @@ def get_text_messages(message):
         #button_geo = types.KeyboardButton(text="Отправить местоположение", request_location=True)
         keyboard.add(button_phone,button_menu)
         bot.send_message(message.chat.id,
-                         "Укажите свой номер телефона и наши менеджеры с Вами свяжутся",
+                         "Чтобы оставить заявку - нажмите кнопку отправить номер телефона, затем всплывет окно"
+                         "и нажмите 'ok' либо 'Share'",
                          reply_markup=keyboard)
     elif message.text == 'Прайс-лист ваших услуг':
         bot.send_message(message.chat.id,'Выгружаем Вам прайс-лист,пожалуйста подождите')
@@ -45,7 +46,7 @@ def get_contact_messages(message):
     print(id)
     bot.forward_message(chat_id='-1001780484687',from_chat_id=message.from_user.id,
                        message_id=message.message_id)
-    bot.send_message(message.from_user.id, 'Ваша заявка принята!', reply_markup=main_menu)
+    bot.send_message(message.from_user.id, 'Ваша заявка принята,наши менеджеры с Вами свяжутся!', reply_markup=main_menu)
 
 
 
