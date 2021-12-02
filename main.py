@@ -4,7 +4,7 @@ from telebot import types
 
 
 
-bot = telebot.TeleBot('1905236810:AAGKlnkAGlMfowvCoQ6CvPv1i8WNM-6h6_g')
+bot = telebot.TeleBot('5070280174:AAEn7rvSorr71jDZSDL9GaBzt439F-YC5Nw')
 main_menu = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
 button_book = types.KeyboardButton(text="Записаться на мойку")
 button_price = types.KeyboardButton(text="Прайс-лист ваших услуг")
