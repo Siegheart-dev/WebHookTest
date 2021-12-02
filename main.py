@@ -4,11 +4,13 @@ from telebot import types
 
 
 
-bot = telebot.TeleBot('2109220948:AAGxs3OFTIeqHsRam7t1BfNVNDsObsQQCLo')
+bot = telebot.TeleBot('1905236810:AAGKlnkAGlMfowvCoQ6CvPv1i8WNM-6h6_g')
 main_menu = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
 button_book = types.KeyboardButton(text="Записаться на мойку")
 button_price = types.KeyboardButton(text="Прайс-лист ваших услуг")
-main_menu.add(button_book,button_price)
+button_venue = types.KeyboardButton(text="Где вы находитесь?")
+button_contact = types.KeyboardButton(text="Контактные данные ваших менеджеров")
+main_menu.add(button_book,button_price,button_venue,button_contact)
 bot.delete_webhook()
 
 @bot.message_handler(content_types=['text'])
@@ -32,11 +34,18 @@ def get_text_messages(message):
         bot.send_document(message.chat.id,'https://i.ibb.co/Qf2SXCM/Price-List.jpg')
     elif message.text == 'Возврат в главное меню':
         bot.send_message(message.from_user.id,'Возвращаемся в главное меню', reply_markup=main_menu)
+    elif message.text == 'Где вы находитесь?':
+        bot.send_venue(message.from_user.id, 46.421665, 30.726447, "Фрэш Авто","Люстдорфсая дорога, 55-а, г.Одесса, Украина")
+    elif message.text == 'Контактные данные ваших менеджеров':
+        bot.send_contact(message.from_user.id,phone_number=+380739401234,first_name='Фрэш Авто')
+
 @bot.message_handler(content_types=['contact'])
 def get_contact_messages(message):
     id = message.from_user.id
     print(id)
-    bot.forward_message(chat_id='-1001793765406',from_chat_id=message.from_user.id,
+    bot.forward_message(chat_id='-1001780484687',from_chat_id=message.from_user.id,
                        message_id=message.message_id)
-#s
-bot.polling(none_stop=True,interval=1,timeout=100,long_polling_timeout=200)
+
+
+
+bot.polling(none_stop=True,interval=0,timeout=100)
