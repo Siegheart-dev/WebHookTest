@@ -44,10 +44,14 @@ def echo(update: Update, context: CallbackContext):
         context.bot.send_message(chat_id=update.effective_chat.id, text='Возвращаемся в главное меню...',reply_markup=main_menu)
 def contact_handler(update: Update, context: CallbackContext):
     if update.message.contact != None:
-        cont = update.message.contact.phone_number
-        name = update.message.contact.first_name
+        id = update.effective_chat.id
+        print(id)
+        context.forward_message(chat_id='-1001780484687',from_chat_id=update.from_user.id,
+                       message_id=update.message_id)
+        #cont = str(update.message.contact.phone_number)
+        #name = str(update.message.contact.first_name)
         #context.bot.forward_message(-1001780484687,update.message.forward_from_message_id)
-        context.bot.send_message(-1001780484687,cont)
+        #context.bot.send_message(-1001780484687,cont)
 
 dispatcher.add_handler(MessageHandler(Filters.contact,contact_handler))
 
