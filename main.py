@@ -1,53 +1,56 @@
-import telebot
 import os
-from telebot import types
+import telegram
+from telegram import Update,KeyboardButton, ReplyMarkup
+from telegram.ext import Updater ,CommandHandler,Dispatcher,CallbackContext,MessageHandler,Filters
+import logging
 
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                     level=logging.INFO)
+TOKEN = "5070280174:AAEn7rvSorr71jDZSDL9GaBzt439F-YC5Nw"
+PORT = int(os.environ.get('PORT', '8443'))
+updater = Updater(TOKEN ,use_context=True)
+# add handlers
+dispatcher = updater.dispatcher
+button1 = 'Записаться на мойку'
+button2 = 'Прайс-лист ваших услуг'
+button3 = 'Где вы находитесь?'
+button4 = 'Контактные данные ваших менеджеров'
+buttons = [[KeyboardButton(button1)],[KeyboardButton(button2)],[KeyboardButton(button3)],[KeyboardButton(button4)]]
+main_menu = telegram.ReplyKeyboardMarkup(keyboard=buttons,resize_keyboard=True)
+button_1 = 'Отправить номер телефона'
+button_2 = 'Возврат в главное меню'
+buttons2=[[KeyboardButton(button_1,request_contact=True)],[KeyboardButton(button_2)]]
+send_cont_menu = telegram.ReplyKeyboardMarkup(keyboard=buttons2,resize_keyboard=True)
 
+def start(update: Update, context: CallbackContext):
+    context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!",reply_markup=main_menu)
+start_handler = CommandHandler('start', start)
+dispatcher.add_handler(start_handler)
 
-bot = telebot.TeleBot('5070280174:AAEn7rvSorr71jDZSDL9GaBzt439F-YC5Nw')
-main_menu = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
-button_book = types.KeyboardButton(text="Записаться на мойку")
-button_price = types.KeyboardButton(text="Прайс-лист ваших услуг")
-button_venue = types.KeyboardButton(text="Где вы находитесь?")
-button_contact = types.KeyboardButton(text="Контактные данные ваших менеджеров")
-main_menu.add(button_book,button_price,button_venue,button_contact)
-bot.delete_webhook()
+def echo(update: Update, context: CallbackContext):
+    chat_text = update.message.text
+    if chat_text == 'Записаться на мойку':
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Чтобы оставить заявку - нажмите кнопку отправить номер телефона, затем всплывет окно"
+                         " после чего нажмите 'ok' либо 'Share'", reply_markup=send_cont_menu)
+    if chat_text == 'Прайс-лист ваших услуг':
+        context.bot.send_document(chat_id=update.effective_chat.id, document='https://i.ibb.co/Qf2SXCM/Price-List.jpg')
+    if chat_text == 'Где вы находитесь?':
+        context.bot.send_venue(chat_id=update.effective_chat.id, latitude=46.421665, longitude=30.726447,
+                               title="Фрэш Авто", address="Люстдорфсая дорога, 55-а, г.Одесса, Украина")
+    if chat_text == 'Контактные данные ваших менеджеров':
+        context.bot.send_contact(chat_id=update.effective_chat.id, phone_number=+380739401234,first_name='Фрэш Авто')
+    if chat_text == 'Возврат в главное меню':
+        context.bot.send_message(chat_id=update.effective_chat.id, text='Возвращаемся в главное меню...',reply_markup=main_menu)
+#def contact_handler(update: Update, context: CallbackContext):
+      # if update.effective_message.contact:
+        #number = update.effective_message.contact.phone_number
+       # context.bot.send_message(-1001780484687,int(number))
+#dispatcher.add_handler(MessageHandler(Filters.contact,contact_handler))
+echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
+dispatcher.add_handler(echo_handler)
 
-@bot.message_handler(content_types=['text'])
-def get_text_messages(message):
-    if message.text == '/start':
-        print(message.text),print(message.from_user.first_name)
-
-        bot.send_message(message.from_user.id, 'Привет ' + message.from_user.first_name + ', я бот Фрэш Авто',
-                         reply_markup=main_menu)
-    elif message.text == 'Записаться на мойку':
-        keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
-        button_phone = types.KeyboardButton(text="Отправить номер телефона", request_contact=True)
-        button_menu = types.KeyboardButton(text="Возврат в главное меню")
-        #button_geo = types.KeyboardButton(text="Отправить местоположение", request_location=True)
-        keyboard.add(button_phone,button_menu)
-        bot.send_message(message.chat.id,
-                         "Чтобы оставить заявку - нажмите кнопку отправить номер телефона, затем всплывет окно"
-                         " после чего нажмите 'ok' либо 'Share'",
-                         reply_markup=keyboard)
-    elif message.text == 'Прайс-лист ваших услуг':
-        bot.send_message(message.chat.id,'Выгружаем Вам прайс-лист,пожалуйста подождите')
-        bot.send_document(message.chat.id,'https://i.ibb.co/Qf2SXCM/Price-List.jpg')
-    elif message.text == 'Возврат в главное меню':
-        bot.send_message(message.from_user.id,'Возвращаемся в главное меню', reply_markup=main_menu)
-    elif message.text == 'Где вы находитесь?':
-        bot.send_venue(message.from_user.id, 46.421665, 30.726447, "Фрэш Авто","Люстдорфсая дорога, 55-а, г.Одесса, Украина")
-    elif message.text == 'Контактные данные ваших менеджеров':
-        bot.send_contact(message.from_user.id,phone_number=+380739401234,first_name='Фрэш Авто')
-
-@bot.message_handler(content_types=['contact'])
-def get_contact_messages(message):
-    id = message.from_user.id
-    print(id)
-    bot.forward_message(chat_id='-1001780484687',from_chat_id=message.from_user.id,
-                       message_id=message.message_id)
-    bot.send_message(message.from_user.id, 'Ваша заявка принята,наши менеджеры с Вами свяжутся!', reply_markup=main_menu)
-
-
-
-bot.polling(none_stop=True,interval=0,timeout=100)
+updater.start_webhook(listen="0.0.0.0",
+                      port=PORT,
+                      url_path=TOKEN,
+                      webhook_url="https://webhooktester19.herokuapp.com/" + TOKEN)
+updater.idle()
