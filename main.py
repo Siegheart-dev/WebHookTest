@@ -45,7 +45,7 @@ def echo(update: Update, context: CallbackContext):
 def contact_handler(update: Update, context: CallbackContext):
        if update.effective_message.contact:
         number = update.effective_message.contact.phone_number
-        context.bot.send_message(-1001780484687,number)
+        context.bot.send_message(-1001780484687,str(number))
 
 dispatcher.add_handler(MessageHandler(Filters.contact,contact_handler))
 
