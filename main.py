@@ -28,7 +28,7 @@ def reply(update: Update, context: CallbackContext):
        context.bot.send_venue(chat_id=update.effective_chat.id, latitude=46.421665, longtitude=30.726447, title="Фрэш Авто",adress="Люстдорфсая дорога, 55-а, г.Одесса, Украина")
 
 reply_handler = MessageHandler(Filters.text,reply)
-dispatcher.add_handler(echo_handler)
+dispatcher.add_handler(echo_handler,reply_handler)
 updater.start_webhook(listen="0.0.0.0",
                       port=PORT,
                       url_path=TOKEN,
