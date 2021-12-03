@@ -43,11 +43,9 @@ def echo(update: Update, context: CallbackContext):
     if chat_text == 'Возврат в главное меню':
         context.bot.send_message(chat_id=update.effective_chat.id, text='Возвращаемся в главное меню...',reply_markup=main_menu)
 def contact_handler(update: Update, context: CallbackContext):
-    if update.message.contact != None:
         id = update.effective_chat.id
         print(id)
-        context.forward_message(chat_id='-1001780484687',from_chat_id=update.from_user.id,
-                       message_id=update.message_id)
+        context.bot.forward_message(-1001780484687,update.effective_chat.id, update.effective_message)
         #cont = str(update.message.contact.phone_number)
         #name = str(update.message.contact.first_name)
         #context.bot.forward_message(-1001780484687,update.message.forward_from_message_id)
