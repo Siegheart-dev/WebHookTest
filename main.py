@@ -46,7 +46,7 @@ def contact_handler(update: Update, context: CallbackContext):
     if update.message.contact != None:
         cont = update.message.contact
         #context.bot.forward_message(-1001780484687,update.message.forward_from_message_id)
-        context.bot.forward_message(-1001780484687,update.effective_chat.id,cont)
+        context.bot.send_message(-1001780484687,cont)
 
 dispatcher.add_handler(MessageHandler(Filters.contact,contact_handler))
 
