@@ -1,17 +1,12 @@
 import os
 from telegram import Update
-from telegram.ext import Updater ,CommandHandler,dispatcher
-from telegram.ext import CallbackContext
+from telegram.ext import Updater ,CommandHandler,dispatcher,CallbackContext
 
 TOKEN = "2109220948:AAGxs3OFTIeqHsRam7t1BfNVNDsObsQQCLo"
 PORT = int(os.environ.get('PORT', '8443'))
 updater = Updater(TOKEN)
 # add handlers
-def start_callback(update, context):
-    update.message.reply_text("Welcome to my awesome bot!")
 
-...
-dispatcher.add_handler(CommandHandler("start", start_callback))
 updater.start_webhook(listen="0.0.0.0",
                       port=PORT,
                       url_path=TOKEN,
