@@ -8,11 +8,6 @@ PORT = int(os.environ.get('PORT', '8443'))
 updater = Updater(TOKEN)
 # add handlers
 
-def start(update: Update, context: CallbackContext):
-    context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!")
-
-
-
 updater.start_webhook(listen="0.0.0.0",
                       port=PORT,
                       url_path=TOKEN,
