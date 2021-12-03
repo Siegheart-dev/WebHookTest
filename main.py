@@ -1,11 +1,26 @@
 import os
 from telegram import Update
-from telegram.ext import Updater ,CommandHandler,dispatcher,CallbackContext
+from telegram.ext import Updater ,CommandHandler,Dispatcher,CallbackContext,MessageHandler,Filters
+import logging
 
+
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                     level=logging.INFO)
 TOKEN = "2109220948:AAGxs3OFTIeqHsRam7t1BfNVNDsObsQQCLo"
 PORT = int(os.environ.get('PORT', '8443'))
-updater = Updater(TOKEN)
+updater = Updater(TOKEN ,use_context=True)
 # add handlers
+dispatcher = updater.dispatcher
+def start(update: Update, context: CallbackContext):
+    context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!")
+start_handler = CommandHandler('start', start)
+dispatcher.add_handler(start_handler)
+def echo(update: Update, context: CallbackContext):
+    context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
+
+echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
+dispatcher.add_handler(echo_handler)
+
 
 updater.start_webhook(listen="0.0.0.0",
                       port=PORT,
