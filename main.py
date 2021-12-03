@@ -24,7 +24,7 @@ buttons2=[[KeyboardButton(button_1,request_contact=True)],[KeyboardButton(button
 send_cont_menu = telegram.ReplyKeyboardMarkup(keyboard=buttons2,resize_keyboard=True)
 
 def start(update: Update, context: CallbackContext):
-    context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!",reply_markup=main_menu)
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Привет"+update.effective_chat.first_name+ ",я бот Фрэш Авто",reply_markup=main_menu)
 start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
 
