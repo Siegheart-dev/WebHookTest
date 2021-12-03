@@ -13,10 +13,12 @@ updater = Updater(TOKEN ,use_context=True)
 # add handlers
 dispatcher = updater.dispatcher
 
+button1 = 'Прайс-лист ваших услуг'
+button2 = 'asdad'
+#keyboard_seq = [[['Прайс-лист ваших услуг',KeyboardButton]]]
+buttons = [[KeyboardButton(button1)],[KeyboardButton(button2)]]
+main_menu = telegram.ReplyKeyboardMarkup(keyboard=buttons,resize_keyboard=True)
 
-keyboard1 = telegram.KeyboardButton('Прайс-лист ваших услуг')
-main_menu = telegram.ReplyKeyboardMarkup(keyboard=keyboard1,resize_keyboard=True)
-main_menu.add(keyboard1)
 
 def start(update: Update, context: CallbackContext):
 
