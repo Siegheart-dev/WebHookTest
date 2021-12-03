@@ -7,7 +7,7 @@ import logging
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                      level=logging.INFO)
-TOKEN = "2109220948:AAGxs3OFTIeqHsRam7t1BfNVNDsObsQQCLo"
+TOKEN = "5070280174:AAEn7rvSorr71jDZSDL9GaBzt439F-YC5Nw"
 PORT = int(os.environ.get('PORT', '8443'))
 updater = Updater(TOKEN ,use_context=True)
 # add handlers
@@ -45,7 +45,8 @@ def echo(update: Update, context: CallbackContext):
 #def contact_handler(update: Update, context: CallbackContext):
       # if update.effective_message.contact:
         #number = update.effective_message.contact.phone_number
-       # context.bot.send_message(-1001780484687,int(number))
+        #context.bot.send_message(-1001780484687,int(number))
+
 #dispatcher.add_handler(MessageHandler(Filters.contact,contact_handler))
 echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
 dispatcher.add_handler(echo_handler)
