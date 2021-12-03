@@ -43,8 +43,8 @@ def echo(update: Update, context: CallbackContext):
     if chat_text == 'Возврат в главное меню':
         context.bot.send_message(chat_id=update.effective_chat.id, text='Возвращаемся в главное меню...',reply_markup=main_menu)
 def contact_handler(update: Update, context: CallbackContext):
-        contact = update.effective_message.contact
-        number = contact.phone_number
+       if update.effective_message.contact:
+        number = update.effective_message.contact.phone_number
         context.bot.send_message(-1001780484687,number)
 
 dispatcher.add_handler(MessageHandler(Filters.contact,contact_handler))
