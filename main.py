@@ -18,7 +18,7 @@ start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
 
 def venue(update: Update, context: CallbackContext):
-    context.bot.send_venue(chat_id=update.effective_chat.id, latitude=46.421665, longtitude=30.726447,
+    context.bot.send_venue(chat_id=update.effective_chat.id, latitude=46.421665, longitude=30.726447,
                            title="Фрэш Авто", adress="Люстдорфсая дорога, 55-а, г.Одесса, Украина")
 venue_handler = CommandHandler('venue',venue)
 dispatcher.add_handler(venue_handler)
