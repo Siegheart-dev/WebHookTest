@@ -3,7 +3,6 @@ from telegram import Update
 from telegram.ext import Updater ,CommandHandler,Dispatcher,CallbackContext,MessageHandler,Filters
 import logging
 
-
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                      level=logging.INFO)
 TOKEN = "2109220948:AAGxs3OFTIeqHsRam7t1BfNVNDsObsQQCLo"
@@ -23,15 +22,11 @@ def venue(update: Update, context: CallbackContext):
 venue_handler = CommandHandler('venue',venue)
 dispatcher.add_handler(venue_handler)
 def echo(update: Update, context: CallbackContext):
-    context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
+    chatter = update.message.text
+    if chatter == 'Hi':
+        context.bot.send_message(chat_id=update.effective_chat.id, text='update.message.text')
 echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
 dispatcher.add_handler(echo_handler)
-
-#def reply(update: Update, context: CallbackContext):
-#   if update.effective_message.text == 'Где':
-#       context.bot.send_venue(chat_id=update.effective_chat.id, latitude=46.421665, longtitude=30.726447, title="Фрэш Авто",adress="Люстдорфсая дорога, 55-а, г.Одесса, Украина")
-
-
 
 updater.start_webhook(listen="0.0.0.0",
                       port=PORT,
