@@ -1,5 +1,7 @@
 import os
-from telegram import Update
+
+import telegram
+from telegram import Update,KeyboardButton, ReplyMarkup
 from telegram.ext import Updater ,CommandHandler,Dispatcher,CallbackContext,MessageHandler,Filters
 import logging
 
@@ -11,20 +13,29 @@ updater = Updater(TOKEN ,use_context=True)
 # add handlers
 dispatcher = updater.dispatcher
 
+main_menu = telegram.ReplyKeyboardMarkup(resize_keyboard=True)
+keyboard1 = telegram.KeyboardButton('Прайс-лист ваших услуг')
+main_menu.add(keyboard1)
+
 def start(update: Update, context: CallbackContext):
-    context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!")
+
+    context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!",reply_markup=main_menu)
 start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
 
-def venue(update: Update, context: CallbackContext):
-    context.bot.send_venue(chat_id=update.effective_chat.id, latitude=46.421665, longitude=30.726447,
-                           title="Фрэш Авто", address="Люстдорфсая дорога, 55-а, г.Одесса, Украина")
-venue_handler = CommandHandler('venue',venue)
-dispatcher.add_handler(venue_handler)
 def echo(update: Update, context: CallbackContext):
-    chatter = update.message.text
-    if chatter == 'Hi':
+    chat_text = update.message.text
+    if chat_text == 'Прайс-лист ваших услуг':
+        context.bot.send_document(chat_id=update.effective_chat.id, document='https://i.ibb.co/Qf2SXCM/Price-List.jpg')
+    if chat_text == 'Где вы находитесь?':
+        context.bot.send_venue(chat_id=update.effective_chat.id, latitude=46.421665, longitude=30.726447,
+                               title="Фрэш Авто", address="Люстдорфсая дорога, 55-а, г.Одесса, Украина")
+    if chat_text == 'Контактные данные ваших менеджеров':
+        context.bot.send_contact(chat_id=update.effective_chat.id, phone_number=+380739401234,first_name='Фрэш Авто')
+    if chat_text == 'Возвращаемся в главное меню':
         context.bot.send_message(chat_id=update.effective_chat.id, text='update.message.text')
+
+
 echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
 dispatcher.add_handler(echo_handler)
 
