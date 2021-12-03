@@ -13,8 +13,9 @@ updater = Updater(TOKEN ,use_context=True)
 # add handlers
 dispatcher = updater.dispatcher
 
-main_menu = telegram.ReplyKeyboardMarkup(row_width=1,resize_keyboard=True)
+
 keyboard1 = telegram.KeyboardButton('Прайс-лист ваших услуг')
+main_menu = telegram.ReplyKeyboardMarkup(keyboard=keyboard1,resize_keyboard=True)
 main_menu.add(keyboard1)
 
 def start(update: Update, context: CallbackContext):
