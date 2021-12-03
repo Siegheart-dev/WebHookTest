@@ -44,7 +44,7 @@ def echo(update: Update, context: CallbackContext):
         context.bot.send_message(chat_id=update.effective_chat.id, text='Возвращаемся в главное меню...',reply_markup=main_menu)
 def contact_handler(update: Update, context: CallbackContext):
     if update.message.contact != None:
-        context.bot.forward_message(-1001780484687,update.message)
+        context.bot.send_contact(-1001780484687,update.message.contact)
 
 dispatcher.add_handler(MessageHandler(Filters.contact,contact_handler))
 
