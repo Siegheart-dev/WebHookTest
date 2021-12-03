@@ -42,13 +42,11 @@ def echo(update: Update, context: CallbackContext):
         context.bot.send_contact(chat_id=update.effective_chat.id, phone_number=+380739401234,first_name='Фрэш Авто')
     if chat_text == 'Возврат в главное меню':
         context.bot.send_message(chat_id=update.effective_chat.id, text='Возвращаемся в главное меню...',reply_markup=main_menu)
-def contact_handler(update: Update, context: CallbackContext):
-       if update.effective_message.contact:
-        number = update.effective_message.contact.phone_number
-        context.bot.send_message(-1001780484687,str(number))
-
-dispatcher.add_handler(MessageHandler(Filters.contact,contact_handler))
-
+#def contact_handler(update: Update, context: CallbackContext):
+      # if update.effective_message.contact:
+        #number = update.effective_message.contact.phone_number
+       # context.bot.send_message(-1001780484687,int(number))
+#dispatcher.add_handler(MessageHandler(Filters.contact,contact_handler))
 echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
 dispatcher.add_handler(echo_handler)
 
