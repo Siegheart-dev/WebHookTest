@@ -1,5 +1,5 @@
 import os
-
+import json
 import telegram
 from telegram import Update,KeyboardButton, ReplyMarkup
 from telegram.ext import Updater ,CommandHandler,Dispatcher,CallbackContext,MessageHandler,Filters
@@ -44,9 +44,11 @@ def echo(update: Update, context: CallbackContext):
         context.bot.send_message(chat_id=update.effective_chat.id, text='Возвращаемся в главное меню...',reply_markup=main_menu)
 def contact_handler(update: Update, context: CallbackContext):
       #if update.effective_message.contact:
-        #number = update.effective_message.contact.phone_number
+        number = update.effective_message.contact.phone_number
+        name = update.effective_message.contact.first_name
         #context.bot.send_message(-1001780484687,number)
-        context.bot.forward_message(-1001780484687, update.effective_chat.id, update.effective_message)
+        context.bot.send_contact(chat_id=-1001780484687,phone_number=number,first_name=name)
+        #context.bot.forward_message(-1001780484687, update.effective_chat.id, update.effective_message)
         #context.bot.send_message(chat_id=-1001780484687, text='Get Contact')
 
 dispatcher.add_handler(MessageHandler(Filters.contact,contact_handler))
