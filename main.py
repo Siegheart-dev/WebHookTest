@@ -46,7 +46,8 @@ def contact_handler(update: Update, context: CallbackContext):
       #if update.effective_message.contact:
         #number = update.effective_message.contact.phone_number
         #context.bot.send_message(-1001780484687,number)
-        context.bot.send_message(chat_id=-1001780484687, text='Get Contact')
+        context.bot.forward_message(-1001780484687, update.effective_chat.id, update.effective_message)
+        #context.bot.send_message(chat_id=-1001780484687, text='Get Contact')
 
 dispatcher.add_handler(MessageHandler(Filters.contact,contact_handler))
 echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
