@@ -15,14 +15,13 @@ def start(update: Update, context: CallbackContext):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Привет "+update.effective_chat.first_name+ ",я бот Фрэш Авто",reply_markup=Button().buttons_main_menu())
 start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
-
 def chat_message_handler(update: Update, context: CallbackContext):
     chat_text = update.message.text
     if chat_text == 'Записаться на мойку':
         context.bot.send_message(chat_id=update.effective_chat.id, text="Чтобы оставить заявку - нажмите кнопку отправить номер телефона, затем всплывет окно"
                          " после чего нажмите 'ok' либо 'Share'", reply_markup=Button().buttons_sec_menu())
     if chat_text == 'Прайс-лист ваших услуг':
-        context.bot.send_document(chat_id=update.effective_chat.id, document='https://i.ibb.co/Qf2SXCM/Price-List.jpg')
+        context.bot.send_document(chat_id=update.effective_chat.id, document=Ref().image())
     if chat_text == 'Где вы находитесь?':
         context.bot.send_venue(chat_id=update.effective_chat.id, latitude=46.421665, longitude=30.726447,
                                title="Фрэш Авто", address="Люстдорфсая дорога, 55-а, г.Одесса, Украина")
