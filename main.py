@@ -1,19 +1,15 @@
 import os
-import json
-import telegram
-from telegram import Update,KeyboardButton, ReplyMarkup
-from telegram.ext import Updater ,CommandHandler,Dispatcher,CallbackContext,MessageHandler,Filters
+from telegram import Update
+from telegram.ext import Updater ,CommandHandler,CallbackContext,MessageHandler,Filters
 import logging
 from buttons import Button
+from reference import Ref
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                      level=logging.INFO)
-TOKEN = "5070280174:AAEn7rvSorr71jDZSDL9GaBzt439F-YC5Nw"
-PORT = int(os.environ.get('PORT', '8443'))
-updater = Updater(TOKEN ,use_context=True)
-# add handlers
-dispatcher = updater.dispatcher
 
+# add handlers
+dispatcher = Ref().updater_context().dispatcher
 def start(update: Update, context: CallbackContext):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Привет "+update.effective_chat.first_name+ ",я бот Фрэш Авто",reply_markup=Button().buttons_main_menu())
 start_handler = CommandHandler('start', start)
@@ -34,17 +30,15 @@ def chat_message_handler(update: Update, context: CallbackContext):
     if chat_text == 'Возврат в главное меню':
         context.bot.send_message(chat_id=update.effective_chat.id, text='Возвращаемся в главное меню...',reply_markup=Button().buttons_main_menu())
 def contact_handler(update: Update, context: CallbackContext):
-        number = update.effective_message.contact.phone_number
-        name = update.effective_message.contact.first_name
-        context.bot.send_contact(chat_id=-1001780484687,phone_number=number,first_name=name)
+        context.bot.send_contact(chat_id=-1001780484687,phone_number=update.effective_message.contact.phone_number,first_name=update.effective_message.contact.first_name)
         context.bot.send_message(chat_id=update.effective_chat.id, text='Ваша заявка принята,наши менеджеры с Вами свяжутся!')
 
 dispatcher.add_handler(MessageHandler(Filters.contact,contact_handler))
 chat_handler = MessageHandler(Filters.text & (~Filters.command), chat_message_handler)
 dispatcher.add_handler(chat_handler)
 
-updater.start_webhook(listen="0.0.0.0",
-                      port=PORT,
-                      url_path=TOKEN,
-                      webhook_url="https://webhooktester19.herokuapp.com/" + TOKEN)
-updater.idle()
+Ref().updater_context().start_webhook("0.0.0.0",
+                      Ref().port(),
+                      Ref().token(),
+                      webhook_url="https://webhooktester19.herokuapp.com/" + Ref().token())
+Ref().updater_context().idle()
