@@ -8,8 +8,9 @@ from reference import Ref
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                      level=logging.INFO)
 
+updater = Updater(Ref().token(),use_context=True)
 # add handlers
-dispatcher = Ref().updater_context().dispatcher
+dispatcher = updater.dispatcher
 def start(update: Update, context: CallbackContext):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Привет "+update.effective_chat.first_name+ ",я бот Фрэш Авто",reply_markup=Button().buttons_main_menu())
 start_handler = CommandHandler('start', start)
@@ -37,8 +38,8 @@ dispatcher.add_handler(MessageHandler(Filters.contact,contact_handler))
 chat_handler = MessageHandler(Filters.text & (~Filters.command), chat_message_handler)
 dispatcher.add_handler(chat_handler)
 
-Ref().updater_context().start_webhook("0.0.0.0",
+updater.start_webhook("0.0.0.0",
                       Ref().port(),
                       Ref().token(),
                       webhook_url="https://webhooktester19.herokuapp.com/" + Ref().token())
-Ref().updater_context().idle()
+updater.idle()

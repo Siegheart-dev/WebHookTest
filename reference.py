@@ -11,6 +11,3 @@ class Ref:
     def image(self):
         url = 'https://i.ibb.co/Qf2SXCM/Price-List.jpg'
         return url
-    def updater_context(self):
-        updater = Updater(self.token(), use_context=True)
-        return updater
